@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Button } from "@mui/material";
 
-import { fetchBlogs } from "../api/BlogApi";
+import { fetchBlogs } from "../api/blogApi";
 import type { Blog } from "../types/blog";
 import BlogCard from "../components/BlogCard";
 
@@ -15,18 +15,23 @@ const Home = () => {
   const sort = query.get("sort");
 
   useEffect(() => {
-    fetchBlogs().then((data) => {
+    const loadBlogs = async () => {
+      const data: Blog[] = await fetchBlogs();
+
       let sorted = [...data];
 
       if (sort === "asc") {
         sorted.sort((a, b) => a.title.localeCompare(b.title));
       }
+
       if (sort === "desc") {
         sorted.sort((a, b) => b.title.localeCompare(a.title));
       }
 
       setBlogs(sorted);
-    });
+    };
+
+    loadBlogs();
   }, [sort]);
 
   return (
@@ -34,6 +39,7 @@ const Home = () => {
       <Button onClick={() => navigate("/?sort=asc")} sx={{ mr: 1 }}>
         Sort ASC
       </Button>
+
       <Button onClick={() => navigate("/?sort=desc")}>
         Sort DESC
       </Button>

@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchBlogs } from "../api/BlogApi";
+import { fetchBlogs } from "../api/blogApi";
 import type { Blog } from "../types/blog";
 import {
   Container,
